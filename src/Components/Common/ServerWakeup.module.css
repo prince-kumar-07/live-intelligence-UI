@@ -1,0 +1,105 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(6, 9, 15, 0.94);
+  backdrop-filter: blur(8px);
+}
+.card {
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  color: #eef2f7;
+}
+.radar {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 28px;
+}
+.ring {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+.track { fill: none; stroke: rgba(255, 255, 255, 0.07); stroke-width: 2; }
+.bar {
+  fill: none;
+  stroke: #c9a96e;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.3s linear;
+}
+.rings {
+  position: absolute;
+  inset: 16%;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 169, 110, 0.25);
+  background:
+    radial-gradient(circle, transparent 32%, rgba(201, 169, 110, 0.18) 33%, transparent 34%),
+    radial-gradient(circle, transparent 62%, rgba(201, 169, 110, 0.18) 63%, transparent 64%);
+}
+.sweep {
+  position: absolute;
+  inset: 16%;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, rgba(201, 169, 110, 0.55), transparent 28%);
+  animation: spin 2.4s linear infinite;
+}
+.dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #c9a96e;
+  box-shadow: 0 0 8px #c9a96e;
+  animation: blip 2.4s ease-in-out infinite;
+}
+.time {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 600 34px/1 ui-monospace, Menlo, Consolas, monospace;
+  text-shadow: 0 0 12px #06090f, 0 0 4px #06090f;
+}
+.time small { font-size: 14px; margin-left: 2px; color: #7a8fa6; }
+.title { margin: 0 0 8px; font-size: 20px; font-weight: 600; }
+.sub { margin: 0 auto 20px; max-width: 320px; font-size: 14px; line-height: 1.5; color: #7a8fa6; }
+.steps {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  display: inline-block;
+  text-align: left;
+  font: 13px/1.9 ui-monospace, Menlo, Consolas, monospace;
+  color: #4a5d72;
+}
+.steps li { transition: color 0.3s; }
+.tick { display: inline-block; width: 18px; }
+.done { color: #7a8fa6; }
+.active { color: #c9a96e; }
+.retry {
+  padding: 10px 22px;
+  border-radius: 8px;
+  border: 1px solid #c9a96e;
+  background: transparent;
+  color: #c9a96e;
+  font-size: 14px;
+  cursor: pointer;
+}
+.retry:hover { background: rgba(201, 169, 110, 0.12); }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes blip {
+  0%, 100% { opacity: 0.15; transform: scale(0.7); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sweep, .dot { animation: none; }
+}

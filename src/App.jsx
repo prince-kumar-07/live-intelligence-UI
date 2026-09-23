@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import CyberThreat from './Components/Cyber Threat/CyberThreat'
 import Navbar from './Components/Common/Navbar'
+import ServerWakeup from './Components/Common/ServerWakeup'
 import CursorGlow from './Components/Common/CursorGlow'
 import Home from './Components/Home/Home'
 import WorldMap from './Components/Common/WorldMap'
@@ -51,6 +52,7 @@ function AnimatedRoutes() {
 function App() {
   return (
     <div>
+      <ServerWakeup />
       <CursorGlow />
       <Navbar />
       <AnimatedRoutes />
