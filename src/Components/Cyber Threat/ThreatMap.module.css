@@ -1,0 +1,574 @@
+/* ── FONTS ─────────────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ── TOKENS ────────────────────────────────────────────────────────────────── */
+:root {
+  --bg:         #06090f;
+  --surface:    #0d1218;
+  --surface-hi: #141c27;
+  --border:     rgba(255, 255, 255, 0.07);
+  --border-hi:  rgba(255, 255, 255, 0.14);
+  --text:       #eef2f7;
+  --muted:      #7a8fa6;
+  --faint:      #344557;
+  --gold:       #c9a96e;
+  --gold-soft:  rgba(201, 169, 110, 0.12);
+  --gold-glow:  rgba(201, 169, 110, 0.05);
+  --ff-serif:   'Cormorant Garamond', Georgia, serif;
+  --ff-sans:    'Outfit', system-ui, sans-serif;
+  --ff-mono:    'JetBrains Mono', 'Courier New', monospace;
+  --nav-h:      68px;
+  --px:         clamp(20px, 5vw, 80px);
+}
+
+/* ── RESET ─────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── PAGE ──────────────────────────────────────────────────────────────────── */
+/* Single scrollable page — header flows into map, nothing overlaps */
+.page {
+  width: 100%;
+  min-height: 100vh;
+  padding-top: var(--nav-h);      /* clear fixed Navbar */
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--ff-sans);
+  position: relative;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── BACKGROUND LAYERS (fixed so they cover entire page) ─────────────────── */
+.noise {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+.glow {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(ellipse at 50% 30%, rgba(201, 169, 110, 0.06) 0%, transparent 60%);
+}
+
+.grid {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+}
+
+/* ── HERO HEADER ───────────────────────────────────────────────────────────── */
+.header {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  text-align: center;
+  padding: clamp(48px, 8vh, 96px) var(--px) 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+/* eyebrow */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.85;
+}
+
+.liveDot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+  animation: livePulse 2.2s ease-in-out infinite;
+}
+
+@keyframes livePulse {
+  0%   { box-shadow: 0 0 0 0    rgba(201, 169, 110, 0.6); }
+  70%  { box-shadow: 0 0 0 10px rgba(201, 169, 110, 0); }
+  100% { box-shadow: 0 0 0 0    rgba(201, 169, 110, 0); }
+}
+
+/* main title */
+.title {
+  font-family: var(--ff-serif);
+  font-size: clamp(48px, 8vw, 100px);
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 0.92;
+  color: var(--text);
+}
+
+/* counter */
+.counterRow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: clamp(32px, 5vh, 56px);
+}
+
+.counterValue {
+  font-family: var(--ff-serif);
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  color: var(--gold);
+  line-height: 1;
+  /* subtle number flicker on update */
+  transition: color 0.15s ease;
+}
+
+.counterLabel {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+/* fade the header bottom edge into the map seamlessly */
+.headerFade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(to bottom, transparent, var(--bg));
+  pointer-events: none;
+}
+
+/* ── HUD BAR ───────────────────────────────────────────────────────────────── */
+/* This bar overlays the map, which stays a fixed dark "instrument panel"
+   regardless of site theme — so its own colors are pinned to literal
+   dark-mode values instead of the theme tokens, which would otherwise
+   flip to dark-on-dark text in light mode. */
+.hud {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px var(--px);
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(6, 9, 15, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.hudLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hudDot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+  animation: livePulse 2.2s ease-in-out infinite;
+}
+
+.hudLabel {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #7a8fa6;
+}
+
+.hudRight {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.hudStat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.hudStatLabel {
+  font-family: var(--ff-mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #344557;
+}
+
+.hudStatValue {
+  font-family: var(--ff-serif);
+  font-size: 26px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--gold);
+}
+
+.hudDivider {
+  width: 1px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* ── MAP WRAPPER ───────────────────────────────────────────────────────────── */
+/* flex: 1 fills all remaining space below the hud */
+.mapWrapper {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  width: 100%;
+  max-width: 1700px;
+  margin: 0 auto;
+  display: flex;
+  align-items: stretch;
+  min-height: 55vh;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── LEGEND ────────────────────────────────────────────────────────────────── */
+/* Same fixed-dark backdrop as .hud — colors pinned to literal dark-mode
+   values rather than the theme tokens. */
+.legend {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  padding: 14px var(--px);
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(6, 9, 15, 0.65);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #7a8fa6;
+  white-space: nowrap;
+}
+
+.legendDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legendLine {
+  display: inline-block;
+  width: 20px;
+  height: 1.5px;
+  background: linear-gradient(90deg, rgba(201,169,110,0.4), var(--gold));
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ── LIVE / DEMO STATUS PILL ───────────────────────────────────────────────── */
+/* Same pinned-dark convention as .hud/.legend — this sits inside the HUD bar. */
+.statusLive,
+.statusDemo {
+  font-family: var(--ff-mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 100px;
+  border: 1px solid;
+  margin-left: 2px;
+}
+
+.statusLive {
+  color: var(--gold);
+  border-color: rgba(201, 169, 110, 0.35);
+  background: rgba(201, 169, 110, 0.10);
+}
+
+.statusDemo {
+  color: #f0a860;
+  border-color: rgba(240, 168, 96, 0.35);
+  background: rgba(240, 168, 96, 0.10);
+}
+
+/* ── THREAT INTELLIGENCE ───────────────────────────────────────────────────── */
+/* Continuation of the map's fixed-dark instrument-panel look, not the
+   theme-adaptive page background — same reasoning as .hud/.legend above. */
+.intel {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 56px var(--px) 96px;
+  background: var(--bg);
+}
+
+.intelHead {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 36px;
+}
+
+.intelEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.9;
+}
+
+.demoDot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #f0a860;
+  flex-shrink: 0;
+}
+
+.intelTitle {
+  font-family: var(--ff-serif);
+  font-size: clamp(28px, 3.5vw, 40px);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.intelGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.intelCard {
+  background: var(--surface);
+  padding: 26px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 210px;
+}
+
+.intelCardLabel {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.intelCardNote {
+  font-family: var(--ff-sans);
+  font-size: 11.5px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-top: auto;
+}
+
+.intelNoData {
+  font-family: var(--ff-sans);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* C2 infrastructure card */
+.c2Row {
+  display: flex;
+  gap: 28px;
+}
+
+.c2Item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.c2Num {
+  font-family: var(--ff-serif);
+  font-size: 40px;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.c2Sub {
+  font-family: var(--ff-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* malware family list */
+.malwareList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.malwareItem {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.malwareDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.malwareName {
+  font-family: var(--ff-sans);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+.malwareType {
+  font-family: var(--ff-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--faint);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.malwareCount {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  color: var(--muted);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* top C2 countries list */
+.countryList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.countryItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.countryItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.countryName {
+  font-family: var(--ff-sans);
+  font-size: 13px;
+  color: var(--text);
+}
+
+.countryCount {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  color: var(--gold);
+}
+
+.intelFoot {
+  margin-top: 28px;
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--faint);
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* ── RESPONSIVE ────────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .intelGrid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 700px) {
+  .hudRight { gap: 16px; }
+  .hudStatValue { font-size: 20px; }
+
+  .legend { gap: 16px; }
+  .legendItem { font-size: 9px; }
+
+  .mapWrapper { min-height: 45vh; }
+
+  .intel { padding: 40px var(--px) 64px; }
+}
+
+@media (max-width: 480px) {
+  .title { font-size: 40px; }
+  .counterValue { font-size: 28px; }
+
+  .hudLabel { display: none; }
+  .statusLive, .statusDemo { font-size: 8px; padding: 2px 7px; }
+
+  .legend {
+    flex-wrap: wrap;
+    gap: 12px 20px;
+    padding: 12px var(--px);
+  }
+}

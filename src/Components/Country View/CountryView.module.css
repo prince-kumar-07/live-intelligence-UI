@@ -1,0 +1,517 @@
+/* ── FONTS ─────────────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ── TOKENS ────────────────────────────────────────────────────────────────── */
+:root {
+  --bg:          #06090f;
+  --surface:     #0d1218;
+  --surface-hi:  #141c27;
+  --border:      rgba(255, 255, 255, 0.07);
+  --border-hi:   rgba(255, 255, 255, 0.14);
+  --text:        #eef2f7;
+  --muted:       #7a8fa6;
+  --faint:       #344557;
+  --gold:        #c9a96e;
+  --gold-soft:   rgba(201, 169, 110, 0.12);
+  --gold-glow:   rgba(201, 169, 110, 0.05);
+  --ff-serif:    'Cormorant Garamond', Georgia, serif;
+  --ff-sans:     'Outfit', system-ui, sans-serif;
+  --ff-mono:     'JetBrains Mono', 'Courier New', monospace;
+  --max-w:       1120px;
+  --nav-h:       68px;
+  --px:          clamp(20px, 5vw, 80px);
+}
+
+/* ── RESET ─────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── PAGE ──────────────────────────────────────────────────────────────────── */
+.page {
+  min-height: 100vh;
+  padding-top: var(--nav-h);
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--ff-sans);
+  position: relative;
+  overflow-x: hidden;
+}
+
+.noise {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+/* ── HERO WRAPPER ──────────────────────────────────────────────────────────── */
+.heroWrap {
+  position: relative;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: clamp(48px, 7vh, 96px) var(--px) 0;
+  z-index: 1;
+  animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.heroGlow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 700px;
+  height: 500px;
+  background: radial-gradient(ellipse at top left, rgba(201, 169, 110, 0.07) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.backBtn {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding: 8px 16px 8px 12px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+.backBtn:hover {
+  color: var(--gold);
+  border-color: rgba(201, 169, 110, 0.35);
+  background: rgba(201, 169, 110, 0.06);
+}
+
+/* ── HERO CONTENT ──────────────────────────────────────────────────────────── */
+.heroContent {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  column-gap: 80px;
+  align-items: center;
+  padding-bottom: clamp(48px, 8vh, 80px);
+}
+
+.heroContent::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold) 0%, rgba(201, 169, 110, 0.15) 50%, transparent 100%);
+  opacity: 0.5;
+}
+
+/* ── HERO LEFT ─────────────────────────────────────────────────────────────── */
+.heroLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.eyebrow {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.85;
+}
+
+.flagRow {
+  display: flex;
+  align-items: center;
+}
+
+.flag {
+  width: 80px !important;
+  height: auto !important;
+  border-radius: 6px;
+  box-shadow: 0 0 0 1px var(--border-hi), 0 8px 32px rgba(0, 0, 0, 0.5);
+  display: block;
+}
+
+.heroTitle {
+  font-family: var(--ff-serif);
+  font-size: clamp(52px, 7vw, 96px);
+  font-weight: 300;
+  letter-spacing: -0.025em;
+  line-height: 0.92;
+  color: var(--text);
+}
+
+/* ── META LIST ─────────────────────────────────────────────────────────────── */
+.metaList {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--border);
+  margin-top: 8px;
+}
+
+.metaItem {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  transition: background 0.25s ease;
+}
+
+.metaItem::before {
+  content: '';
+  position: absolute;
+  left: -2px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--gold);
+  border-radius: 2px;
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform 0.25s ease;
+}
+
+.metaItem:hover { background: linear-gradient(90deg, var(--gold-glow) 0%, transparent 70%); }
+.metaItem:hover::before { transform: scaleY(1); }
+
+.metaLabel {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.metaValue {
+  font-family: var(--ff-sans);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  text-align: right;
+}
+
+/* ── MAP ───────────────────────────────────────────────────────────────────── */
+.heroRight {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mapCol {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mapCredit {
+  font-family: var(--ff-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--faint);
+  text-align: right;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.mapCredit:hover { color: var(--muted); }
+
+.mapFrame {
+  width: 100%;
+  aspect-ratio: 420 / 320;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+}
+
+.mapFrame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  box-shadow: inset 0 0 60px rgba(6, 9, 15, 0.7);
+  pointer-events: none;
+}
+
+.mapSvg { width: 100%; height: 100%; display: block; }
+
+.mapPath {
+  fill: rgba(201, 169, 110, 0.12);
+  stroke: var(--gold);
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 8px rgba(201, 169, 110, 0.25));
+  transition: fill 0.3s ease;
+}
+
+.mapFrame:hover .mapPath { fill: rgba(201, 169, 110, 0.20); }
+
+.mapStatus {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.mapSpinner {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-hi);
+  border-top-color: var(--gold);
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.mapStatusText {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+/* ── TAB BAR ───────────────────────────────────────────────────────────────── */
+.tabBar {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  background: rgba(6, 9, 15, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.tabBarInner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 20px var(--px);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+/* ── TAB BUTTON ────────────────────────────────────────────────────────────── */
+.tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 22px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  cursor: pointer;
+  color: var(--muted);
+  text-align: left;
+  transition: background 0.25s ease, border-color 0.25s ease,
+              color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+/* shimmer sweep on hover */
+.tab::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(201, 169, 110, 0.04) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+  pointer-events: none;
+}
+
+.tab:hover::after { transform: translateX(100%); }
+
+.tab:hover {
+  background: var(--surface-hi);
+  border-color: var(--border-hi);
+  color: var(--text);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.tabActive {
+  background: var(--surface-hi) !important;
+  border-color: rgba(201, 169, 110, 0.35) !important;
+  color: var(--text) !important;
+  box-shadow: 0 0 0 1px rgba(201, 169, 110, 0.15),
+              0 12px 32px rgba(0, 0, 0, 0.4) !important;
+  transform: translateY(-2px);
+}
+
+/* top gold accent line on active */
+.tabActive::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), rgba(201,169,110,0.3));
+  border-radius: 14px 14px 0 0;
+}
+
+/* icon box */
+.tabIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+}
+
+.tab:hover .tabIcon {
+  border-color: var(--border-hi);
+  transform: scale(1.05);
+}
+
+.tabActive .tabIcon {
+  background: var(--gold-soft);
+  border-color: rgba(201, 169, 110, 0.4);
+  color: var(--gold);
+  box-shadow: 0 0 16px rgba(201, 169, 110, 0.15);
+}
+
+/* text stack */
+.tabBody {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.tabIndex {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+  opacity: 0.5;
+  line-height: 1;
+}
+
+.tabActive .tabIndex { opacity: 1; }
+
+.tabLabel {
+  font-family: var(--ff-sans);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  color: inherit;
+}
+
+.tabDesc {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--faint);
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.tab:hover .tabDesc,
+.tabActive .tabDesc { color: var(--muted); }
+
+/* arrow icon that slides in on hover/active */
+.tabArrow {
+  display: flex;
+  align-items: center;
+  color: var(--gold);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.tab:hover .tabArrow,
+.tabActive .tabArrow {
+  opacity: 0.7;
+  transform: translateX(0);
+}
+
+/* active bottom indicator — not needed now since we use border, but keep for fallback */
+.tabIndicator { display: none; }
+
+/* ── TAB CONTENT ───────────────────────────────────────────────────────────── */
+.tabContent {
+  animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── ANIMATIONS ────────────────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ────────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .heroContent {
+    grid-template-columns: 1fr;
+    row-gap: 48px;
+    column-gap: 0;
+  }
+
+  .heroRight { order: -1; }
+
+  .mapFrame {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .heroTitle { font-size: clamp(42px, 10vw, 72px); }
+
+  .tabBarInner {
+    grid-template-columns: 1fr;
+    padding: 16px var(--px);
+    gap: 10px;
+  }
+
+  .tab { padding: 18px 20px; }
+}
+
+@media (max-width: 600px) {
+  .heroTitle { font-size: 42px; }
+  .flag { width: 60px !important; }
+  .metaValue { font-size: 15px; }
+
+  .tabIcon { width: 38px; height: 38px; }
+  .tabLabel { font-size: 15px; }
+}

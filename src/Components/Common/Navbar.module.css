@@ -1,0 +1,310 @@
+/* ── FONTS ─────────────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ── TOKENS (identical to CountryDetails / CountryView) ─────────────────── */
+:root {
+  --bg:         #06090f;
+  --surface:    #0d1218;
+  --border:     rgba(255, 255, 255, 0.07);
+  --border-hi:  rgba(255, 255, 255, 0.14);
+  --text:       #eef2f7;
+  --muted:      #7a8fa6;
+  --faint:      #344557;
+  --gold:       #c9a96e;
+  --gold-glow:  rgba(201, 169, 110, 0.15);
+
+  --ff-serif:   'Cormorant Garamond', Georgia, serif;
+  --ff-sans:    'Outfit', system-ui, sans-serif;
+  --ff-mono:    'JetBrains Mono', 'Courier New', monospace;
+
+  --max-w:      1120px;
+  --px:         clamp(20px, 5vw, 80px);
+}
+
+/* ── NAVBAR SHELL ──────────────────────────────────────────────────────────── */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 68px;
+  z-index: 1000;
+  background: var(--nav-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── CONTAINER ─────────────────────────────────────────────────────────────── */
+/* Wider than the page content's --max-w (1120px) on purpose — the navbar is
+   a horizontal bar, not a reading column, and its content (logo + 5 links +
+   theme toggle + live button) needs more room than that cap allows before
+   it starts overlapping. Using --max-w here was the actual bug: it capped
+   the available width regardless of how wide the browser window was. */
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  height: 100%;
+  padding: 0 var(--px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(12px, 2vw, 32px);
+}
+
+/* ── LOGO ──────────────────────────────────────────────────────────────────── */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--ff-mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text);
+  cursor: pointer;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.logo:hover {
+  color: var(--gold);
+}
+
+.logoDot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+  box-shadow: 0 0 8px rgba(201, 169, 110, 0.6);
+}
+
+/* ── DESKTOP LINKS ─────────────────────────────────────────────────────────── */
+.links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 2.6vw, 40px);
+  flex: 1;
+  justify-content: center;
+  min-width: 0;
+}
+
+.links li {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: pointer;
+  position: relative;
+  padding-bottom: 2px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+
+.links li::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.links li:hover {
+  color: var(--text);
+}
+
+.links li:hover::after {
+  width: 100%;
+}
+
+/* ── THEME TOGGLE ──────────────────────────────────────────────────────────── */
+.themeBtn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+
+  background: transparent;
+  border: 1px solid var(--border-hi);
+  border-radius: 100px;
+  padding: 8px 16px;
+  cursor: pointer;
+
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.themeBtn:hover {
+  color: var(--text);
+  border-color: var(--gold);
+}
+
+.themeDot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+
+/* ── CTA BUTTON ────────────────────────────────────────────────────────────── */
+.liveBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bg);
+
+  background: var(--gold);
+  border: none;
+  border-radius: 100px;
+  padding: 9px 22px;
+  cursor: pointer;
+
+  transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.liveBtn:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(201, 169, 110, 0.3);
+}
+
+/* pulsing live dot */
+.liveDot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--bg);
+  opacity: 0.7;
+  animation: pulse 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.35); }
+}
+
+/* ── HAMBURGER ─────────────────────────────────────────────────────────────── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--muted);
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.25s ease, background 0.25s ease;
+  transform-origin: center;
+}
+
+.hamburger:hover span {
+  background: var(--gold);
+}
+
+/* open state — morphs into × */
+.hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* ── MOBILE MENU ───────────────────────────────────────────────────────────── */
+.mobileMenu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding: 0 var(--px) 32px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  animation: slideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.mobileMenu p {
+  width: 100%;
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  transition: color 0.2s ease;
+}
+
+.mobileMenu p:hover {
+  color: var(--text);
+}
+
+.mobileBtn {
+  margin-top: 24px;
+  width: 100%;
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bg);
+  background: var(--gold);
+  border: none;
+  border-radius: 100px;
+  padding: 14px 0;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.mobileBtn:hover {
+  opacity: 0.88;
+}
+
+/* ── RESPONSIVE ────────────────────────────────────────────────────────────── */
+/* Raised from 900px: with the Admin link + theme toggle added, the desktop
+   layout needs more room before it fits without wrapping/cramping. */
+@media (max-width: 1240px) {
+  .links,
+  .themeBtn,
+  .liveBtn {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+}

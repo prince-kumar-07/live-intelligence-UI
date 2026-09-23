@@ -1,68 +1,179 @@
+/* ── GLOBAL FOUNDATION ─────────────────────────────────────────────────────── */
+/* Single source of truth for theme tokens. Per-page CSS modules declare
+   their own local `:root { --bg: ...; }` blocks with the same dark values
+   (that's pre-existing, harmless duplication) — but the light-mode override
+   below always wins over a plain `:root` rule regardless of file load
+   order, because an attribute selector is more specific than a bare one.
+   This covers every variable-name alias used across the site's modules
+   (--surface/--sur, --text/--tx, --border/--bdr, etc.) so toggling the
+   theme here changes every page at once. */
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --bg: #06090f;
+  --surface: #0d1218;
+  --sur: #0d1218;
+  --surface-hi: #141c27;
+  --surhi: #111822;
+  --border: rgba(255, 255, 255, 0.07);
+  --bdr: rgba(255, 255, 255, 0.07);
+  --border-hi: rgba(255, 255, 255, 0.14);
+  --bdrhi: rgba(255, 255, 255, 0.13);
+  --text: #eef2f7;
+  --tx: #eef2f7;
+  --muted: #7a8fa6;
+  --faint: #344557;
+  --gold: #c9a96e;
+  --gold-soft: rgba(201, 169, 110, 0.12);
+  --goldglow: rgba(201, 169, 110, 0.12);
+  --gold-glow: rgba(201, 169, 110, 0.08);
+  --nav-bg: rgba(6, 9, 15, 0.82);
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+:root[data-theme="light"] {
+  --bg: #f6f3ec;
+  --surface: #ffffff;
+  --sur: #ffffff;
+  --surface-hi: #efe9db;
+  --surhi: #efe9db;
+  --border: rgba(20, 20, 15, 0.09);
+  --bdr: rgba(20, 20, 15, 0.09);
+  --border-hi: rgba(20, 20, 15, 0.18);
+  --bdrhi: rgba(20, 20, 15, 0.18);
+  --text: #1a1d24;
+  --tx: #1a1d24;
+  --muted: #5c6673;
+  --faint: #d7d0c2;
+  --gold: #9c7a3f;
+  --gold-soft: rgba(156, 122, 63, 0.14);
+  --goldglow: rgba(156, 122, 63, 0.14);
+  --gold-glow: rgba(156, 122, 63, 0.10);
+  --nav-bg: rgba(246, 243, 236, 0.86);
 }
 
+* ,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+#root {
+  width: 100%;
   min-height: 100vh;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  color: inherit;
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* ── SELECTION ─────────────────────────────────────────────────────────────── */
+::selection {
+  background: rgba(201, 169, 110, 0.35);
+  color: #fff;
+}
+
+/* ── FOCUS ─────────────────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 1.5px solid rgba(201, 169, 110, 0.6);
+  outline-offset: 2px;
+}
+
+/* ── SCROLLBAR ─────────────────────────────────────────────────────────────── */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201, 169, 110, 0.3) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(201, 169, 110, 0.25);
+  border-radius: 100px;
+  border: 2px solid var(--bg);
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(201, 169, 110, 0.5);
+  background-clip: padding-box;
+}
+
+/* ── AMBIENT CURSOR GLOW ───────────────────────────────────────────────────── */
+.cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 560px;
+  height: 560px;
+  margin-left: -280px;
+  margin-top: -280px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201, 169, 110, 0.09) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 9999;
+  will-change: transform;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.cursor-glow.is-active {
+  opacity: 1;
+}
+
+@media (pointer: coarse), (max-width: 768px) {
+  .cursor-glow {
+    display: none;
   }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+}
+
+/* ── ROUTE TRANSITION LAYER ───────────────────────────────────────────────── */
+.route-fade {
+  min-height: 100vh;
 }
