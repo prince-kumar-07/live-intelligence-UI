@@ -1,8 +1,9 @@
+import { API_BASE_URL } from "../../config";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Admin.module.css";
 
-const API_BASE = "http://localhost:4000/api/v1/admin";
+const API_BASE = `${API_BASE_URL}/admin`;
 const POLL_MS = 2000;
 const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 

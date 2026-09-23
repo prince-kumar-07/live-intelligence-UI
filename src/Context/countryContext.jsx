@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "../config";
 import { createContext, useState } from "react";
 
 export const CountryContext = createContext();
@@ -16,7 +17,7 @@ export const CountryProvider = ({ children }) => {
     try {
       setLoading(true);
 
-      const res = await fetch(`http://localhost:4000/api/v1/countries/${name}`);
+      const res = await fetch(`${API_BASE_URL}/countries/${name}`);
       const data = await res.json();
 
       setCountry(data.data);
@@ -35,7 +36,7 @@ export const CountryProvider = ({ children }) => {
     try {
       setLoading(true);
 
-      const res = await fetch(`http://localhost:4000/api/v1/news?country=${country}`)
+      const res = await fetch(`${API_BASE_URL}/news?country=${country}`)
       const data = await res.json();
 
       if (!res.ok) {
@@ -59,7 +60,7 @@ export const CountryProvider = ({ children }) => {
     try {
       setLoading(true);
 
-      const res = await fetch(`http://localhost:4000/api/v1/streams?country=${country}`)
+      const res = await fetch(`${API_BASE_URL}/streams?country=${country}`)
       const data = await res.json();
 
       setLiveFeed(data.streams);
@@ -75,10 +76,10 @@ export const CountryProvider = ({ children }) => {
     try {
       setLoading(true);
 
-      const res = await fetch(`http://localhost:4000/api/v1/passport/${name}`);
+      const res = await fetch(`${API_BASE_URL}/passport/${name}`);
       const data = await res.json();
 
-      const res2 = await fetch(`http://localhost:4000/api/v1/countries/${name}`);
+      const res2 = await fetch(`${API_BASE_URL}/countries/${name}`);
       const data2 = await res2.json();
 
       setCountry(data2.data);

@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "../../config";
 import { useState, useRef, useEffect, useCallback } from "react";
 import styles from "./PassportComparision.module.css";
 import {
@@ -7,7 +8,7 @@ import {
   REGION_CFG,
 } from "../../Data/PassportData";
 
-const API = "http://localhost:4000/api/v1/passport/compare";
+const API = `${API_BASE_URL}/passport/compare`;
 
 const Flag = ({ iso2, className }) => (
   <img

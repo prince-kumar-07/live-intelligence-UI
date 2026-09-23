@@ -1,7 +1,8 @@
+import { API_BASE_URL } from "../../config";
 import { useEffect, useRef, useState } from "react";
 import { locations as demoLocations, attackTypes as demoAttackTypes } from "../../Data/data";
 
-const API_BASE       = "http://localhost:4000/api/v1";
+const API_BASE       = API_BASE_URL;
 const LIVE_COUNT      = 25;    // events fetched per batch
 const FETCH_INTERVAL  = 15000; // re-fetch cadence (Feodo itself is cached 5min server-side)
 const SPAWN_INTERVAL  = 900;   // visual cadence of new arcs appearing
