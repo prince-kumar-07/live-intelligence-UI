@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import styles from "./LiveStreams.module.css";
+import styles from "./Livestreams.module.css";
 import { CountryContext } from "../../Context/countryContext";
 
 // ── icons ─────────────────────────────────────────────────────────────────────
